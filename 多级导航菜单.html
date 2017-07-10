@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+    <html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>多级导航菜单</title>
+        <style>
+            *{
+             margin:0;
+             padding:0;
+            }
+            ul,ol{
+                list-style:none;
+            }
+            a{
+                text-decoration:none;
+            }
+            ul .content{
+                float:left;
+                margin-right:2px;
+                background-color:#00f;
+
+            }
+            ul li{
+                width:100px;
+                height:30px;
+                background-color:#456789;
+            }
+            ul li a{
+                width:100px;
+                height:30px;
+                display:block;
+                line-height:30px;
+                color:#fff;
+            }
+            /*.content ul li{*/
+                /*margin-bottom: 2px;*/
+            /*}*/
+            #container{
+                width:408px;
+                height:125px;
+
+            }
+            a:hover{
+                background-color:#123456;
+            }
+            .content ul{
+                display:none;
+            }
+            .content li{
+                border-bottom:1px dashed #000;
+            }
+            .menu{
+                text-align:center;
+            }
+            .content li a{
+                text-indent:5px;
+            }
+           /*存在兼容问题 IE6只支持a+hover */
+           /* #container .content:hover .sub-menu{
+                display:block;
+            }*/
+        </style>
+    </head>
+    <body>
+    <ul id="container">
+        <li class="content">
+            <a href="#" class="menu">firstLink</a>
+            <ul class="sub-menu">
+                <li><a href="#">First</a></li>
+                <li><a href="#">Second</a></li>
+                <li><a href="#">Third</a></li>
+            </ul>
+        </li>
+        <li class="content">
+            <a href="#" class="menu">secondLink</a>
+            <ul class="sub-menu">
+                <li><a href="#">First</a></li>
+                <li><a href="#">Second</a></li>
+                <li><a href="#">Third</a></li>
+            </ul>
+        </li>
+        <li class="content">
+            <a href="#" class="menu">thirdLink</a>
+            <ul class="sub-menu">
+                <li><a href="#">First</a></li>
+                <li><a href="#">Second</a></li>
+                <li><a href="#">Third</a></li>
+            </ul>
+        </li>
+        <li class="content">
+            <a href="#" class="menu">fourLink</a>
+            <ul class="sub-menu">
+                <li><a href="#">First</a></li>
+                <li><a href="#">Second</a></li>
+                <li><a href="#">Third</a></li>
+            </ul>
+        </li>
+    </ul>
+    <script>
+        var oContainer = document.getElementById("container");
+        var aLi = oContainer.getElementsByTagName("li");
+        for(var i=0;i<aLi.length;i++){
+            if(aLi[i].className == "content"){
+                aLi[i].onmouseover = function(){
+                    var oUl = this.getElementsByTagName("ul");
+                    var oul = oUl[0];
+                    oul.style.display = "block";
+                };
+                aLi[i].onmouseout = function(){
+                    var aUl = this.getElementsByTagName("ul");
+                    var oSubMenu = aUl[0];
+                    oSubMenu.style.display = "none";
+                };
+            }
+
+        }
+    </script>
+    </body>
+</html>
+
+
+
+
+
+
