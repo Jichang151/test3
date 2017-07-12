@@ -22,7 +22,8 @@
                 text-align:center;
                 line-height:30px;
                 /*cursor: pointer;*/
-                user-select:none;
+                user-select:none; /* 取消选中变蓝 或<h3 onselectstart="return false;">Link1</h3> */
+
             }
             .sub-menu li{
                 background-color:#bbb;
@@ -75,6 +76,7 @@
         </li>
     </ul>
     <script>
+/*//      第一种方法
         var oMenu = document.getElementById("menu");
         var aLi = oMenu.getElementsByTagName("li");
         for(var i=0;i<aLi.length;i++){
@@ -84,12 +86,12 @@
                     var aUl = this.getElementsByTagName("ul");
                     var oSubMenu = aUl[0];
 
-                    //对象.style.display获取的是内联样式的值！
-//                    if(oSubMenu.style.display == "none"){
-//                    oSubMenu.style.display = "block";
-//                    }else{
-//                        oSubMenu.style.display = "none";
-//                    }
+                  /!*  //对象.style.display获取的是内联样式的值！
+                    if(oSubMenu.style.display == "none" || oSubMenu.style.display == ""){
+                    oSubMenu.style.display = "block";
+                    }else{
+                        oSubMenu.style.display = "none";
+                    }*!/
 
                     if(oSubMenu.style.display == "block"){
                         oSubMenu.style.display = "none";
@@ -99,7 +101,71 @@
                 };
 
             }
+        }*/
+
+
+/*
+        //第二种方法
+        var oMenu = document.getElementById("menu");
+        var aH3 = oMenu.getElementsByTagName("h3");
+        for(var i=0;i<aH3.length;i++){
+            aH3[i].onclick = function(){
+                //var oUl = this.nextElementSibling;//早期IE不支持；
+                //var oUl = this.nextSibling; //IE早期会直接找到h3；现在浏览器会找到文本节点#text;
+
+
+                var oLi = this.parentNode;  //根据父亲找儿子
+                var oSubMenu = oLi.children[1];
+                if(oSubMenu.style.display ==  "block"){
+                    oSubMenu.style.display = "none";
+                }else{
+                    oSubMenu.style.display = "block";
+                }
+            };
         }
+*/
+
+
+/*                    // 第三种方法
+                var oMenu = document.getElementById("menu");
+                var aH3 = oMenu.getElementsByTagName("h3");
+                for(var i=0;i<aH3.length;i++){
+                    aH3[i].onclick = function(){
+                var oUl = next(this);
+                if(oUl.style.display ==  "block"){
+                    oUl.style.display = "none";
+                }else{
+                    oUl.style.display = "block";
+                }
+
+            }
+        }
+//      jquery里封装的函数
+        function next(elem){
+            do{
+                elem = elem.nextSibling;
+            }while(elem != null && elem.nodeType != 1);
+            return elem;
+        }*/
+
+
+//      第四种方法
+        var oMenu = document.getElementById("menu");
+        var aH3 = oMenu.getElementsByTagName("h3");
+        for(var i=0;i<aH3.length;i++) {
+            aH3[i].index = i;   //页面加载完i的就已经为2，所以设置一个属性index索引来记录i的值，便于获取；
+            aH3[i].onclick = function () {
+                var aSubMenu = oMenu.getElementsByTagName("ul");
+                var oSubMenu = aSubMenu[this.index];
+                if(oSubMenu.style.display ==  "block"){
+                    oSubMenu.style.display = "none";
+                }else{
+                    oSubMenu.style.display = "block";
+                }
+            };
+        }
+
+
     </script>
     </body>
 </html>
