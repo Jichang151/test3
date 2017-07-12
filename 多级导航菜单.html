@@ -102,9 +102,8 @@
         for(var i=0;i<aLi.length;i++){
             if(aLi[i].className == "content"){
                 aLi[i].onmouseover = function(){
-                    var oUl = this.getElementsByTagName("ul");
-                    var oul = oUl[0];
-                    oul.style.display = "block";
+                    var oSubMenu = this.getElementsByTagName("ul")[0];
+                    oSubMenu.style.display = "block";
                 };
                 aLi[i].onmouseout = function(){
                     var aUl = this.getElementsByTagName("ul");
