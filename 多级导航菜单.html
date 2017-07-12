@@ -97,12 +97,17 @@
         </li>
     </ul>
     <script>
+
+
+
         var oContainer = document.getElementById("container");
         var aLi = oContainer.getElementsByTagName("li");
+        //var aLi = oContainer.children;
         for(var i=0;i<aLi.length;i++){
             if(aLi[i].className == "content"){
                 aLi[i].onmouseover = function(){
                     var oSubMenu = this.getElementsByTagName("ul")[0];
+                    //var oSubMenu = this.children[1];
                     oSubMenu.style.display = "block";
                 };
                 aLi[i].onmouseout = function(){
@@ -111,7 +116,6 @@
                     oSubMenu.style.display = "none";
                 };
             }
-
         }
     </script>
     </body>
