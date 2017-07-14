@@ -20,7 +20,7 @@
                 margin:100px auto;
 
             }
-            .list li{
+            #tab li{
                 float:left;
                 width:100px;
                 height:30px;
@@ -28,43 +28,51 @@
                 background-color: #456789;
                 margin-right:10px;
                 line-height:30px;
-                color:#fff;
+                cursor:pointer;
+                user-select:none;
             }
-            .list{
-                width:400px;
-                height:30px;
-
+            #tab{
+                /*width:400px;*/
+                /*height:30px;*/
+                overflow:hidden;/*解决塌陷问题*/
             }
-            .content{
+            #content{
                 width:400px;
                 height:270px;
                 background-color: #123456;
                 text-align: center;
                 line-height:270px;
+                border-top:1px solid #000000;
+            }
+            #container .selected{
+                background-color: #000;
+                color:#fff
             }
         </style>
     </head>
     <body>
         <div id="container">
-            <ul class="list">
-                <li>html</li>
+            <ul id="tab">
+                <li class="selected">html</li>
                 <li>css</li>
                 <li>javascript</li>
             </ul>
-            <div class="content">111</div>
+            <div id="content">111</div>
         </div>
         <script>
+            var data = ['111','222','333'];//模拟数据
             var oContainer = document.getElementById("container");
-            var oUl = oContainer.children[0];
-            var aLi = oUl.getElementsByTagName("li");
+            var aLi = oContainer.getElementsByTagName("li");
+            var oContent = document.getElementById("content");
             for(var i=0;i<aLi.length;i++){
-                aLi[i].onmouseover = function(){
-                  this.style.backgroundColor = "#000";
-                };
-                aLi[i].onmouseout = function(){
-                    this.style.backgroundColor = "#456789";
-                };
-
+                aLi[i].index = i;
+                aLi[i].onclick = function(){
+                    for(var i=0;i<aLi.length;i++){//再次用i来循环不干扰，是因为循环不在同一时间段执行；
+                        aLi[i].className = "";
+                    }
+                    this.className = "selected";
+                    oContent.innerHTML = data[this.index];
+                }
             }
         </script>
     </body>
