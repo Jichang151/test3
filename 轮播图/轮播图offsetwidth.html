@@ -103,6 +103,8 @@
                 aLi[i].index = i;
                 aLi[i].onmouseover = function(){
                    changImg(this.index);
+                    iNow = this.index;
+
                 }
             }
             function changImg(index){
@@ -127,7 +129,9 @@
             };
             var timer = setInterval(function(){
                 oNext.onclick();
+
             },1000);
+            //console.log(typeof(timer));//返回类型是number;
             oContainer.onmouseover = function(){
                 clearInterval(timer);
             };
