@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>轮播图</title>
+        <style>
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul,ol{
+                list-style:none;
+            }
+            a{
+                text-decoration:none;
+            }
+            img{
+                /*display:none;*/
+            }
+            #container{
+                width:680px;
+                height:344px;
+                /*background-color:#bbbbbb;*/
+                position: relative;
+                left:300px;
+                top:100px;
+            }
+            #arrow{
+                position:absolute;
+                left:10px;
+                bottom:10px;
+            }
+            #arrow span{
+                display:block;
+                width:20px;
+                height:20px;
+                background-color:#000;
+                float:left;
+                color:#fff;
+                text-align:center;
+                line-height:20px;
+                margin-right:5px;
+                cursor:pointer;
+                user-select:none;
+            }
+            #tab ul li{
+                float:left;
+                width:20px;
+                height:20px;
+                background-color:#000000;
+                color:#fff;
+                text-align:center;
+                line-height:20px;
+                margin-left:10px;
+                cursor:pointer;
+                user-select:none;
+            }
+            #tab{
+                position:absolute;
+                right:10px;
+                bottom:10px;
+            }
+            img{
+                display:none;
+            }
+            #content .selected{
+                display:block;
+            }
+            #tab .selected{
+                background-color: orange;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="content">
+                <img class="selected" src="img/1.jpg" alt="图片加载失败" title="图片1"/>
+                <img src="img/2.jpg" alt="图片加载失败" title="图片2"/>
+                <img srC="img/3.jpg" alt="图片加载失败" title="图片3"/>
+                <img src="img/4.jpg" alt="图片加载失败" title="图片4"/>
+            </div>
+            <div id="arrow">
+                <span id="prev">&lt</span>
+                <span id="next">&gt</span>
+            </div>
+            <div id="tab">
+                <ul>
+                    <li class="selected">1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                </ul>
+            </div>
+        </div>
+    <script>
+        var oContainer = document.getElementById("container");
+        var aLi = oContainer.getElementsByTagName("li");
+        var aImg = oContainer.getElementsByTagName("img");
+        var oPrev = document.getElementById("prev");
+        var oNext = document.getElementById("next");
+        var iNow = 0;//记录点击下一个或上一个索引
+        var timer;
+        for(var i=0;i<aLi.length;i++) {
+            aLi[i].index = i;
+            aLi[i].onmouseover = function () {
+                changImg(this.index);
+                iNow = this.index;//记录当前索引,同步更新iNow
+            };
+        }
+        function changImg(index){
+            //console.log(this);
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].className = '';
+                aImg[i].className = '';
+            }
+            aLi[index].className = "selected";
+            aImg[index].className = "selected";
+        }
+        oNext.onclick = function(){
+            iNow++;
+            /*if(iNow>aLi.length - 1){
+                iNow = 0;
+            }*/
+            iNow = iNow%aLi.length;
+            changImg(iNow);
+        };
+        oPrev.onclick = function(){
+          iNow--;
+            if(iNow<0){
+                iNow = aLi.length - 1;
+            }
+            changImg(iNow);
+        };
+        timer = setInterval(function(){ //定时器（毫秒）
+            oNext.onclick();
+        },1000);
+        oContainer.onmouseover = function(){
+            clearInterval(timer);//清除定时器
+        };
+        oContainer.onmouseout = function(){
+            timer = setInterval(function(){
+                oNext.onclick();
+            },1000);
+        };
+
+    </script>
+    </body>
+</html>
