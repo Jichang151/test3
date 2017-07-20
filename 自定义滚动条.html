@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>自定义滚动条</title>
+        <style>
+            *{
+                margin:0;
+                padding:0;
+            }
+            #container{
+                width:200px;
+                height:400px;
+                background-color: #aaaaaa;
+                position: relative;
+                overflow: hidden;
+                left:0;
+                top:0;
+            }
+            #content{
+                width:180px;
+                position:absolute;
+            }
+            #scroll-bar{
+                width:20px;
+                height:400px;
+                background-color: #cccccc;
+                position:absolute;
+                right:0;
+                top:0;
+            }
+            #scroll-btn{
+                width:20px;
+                height:20px;
+                background-color: #0000ff;
+                position:absolute;
+                top:0;
+                left:0;
+                cursor:pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="content">
+                阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德
+            </div>
+            <div id="scroll-bar">
+                <div id="scroll-btn">
+
+                </div>
+            </div>
+        </div>
+    <script>
+        (function(){
+            var oScrollBtn = document.getElementById("scroll-btn");
+            var oScrollBar = document.getElementById("scroll-bar");
+            var oContainer = document.getElementById("container");
+            var oContent =document.getElementById("content");
+            oScrollBtn.onmousedown = function(e){
+                //解决兼容问题；
+                e = e|| window.event;
+                var iDisY = e.clientY - oScrollBtn.offsetTop;
+                document.onmousemove = function(e){
+                    e = e|| window.event;
+                    var top = e.clientY - iDisY;
+                    //超出滚动条超出范围，拉回滚动条内；保证不超出浏览器；
+                    if(top < 0){
+                        top = 0;
+                    }
+                    var btnMaxH =oScrollBar.offsetHeight - oScrollBtn.offsetHeight;
+                    if(top > btnMaxH){
+                        top = btnMaxH;
+                    }
+                    oScrollBtn.style.top = top +"px";
+                    //内容移动任意高度= -滚动按钮移动任意高度/滚动条最大高度*内容最大高度（多了一个oContainer的高度）
+                    oContent.style.top = -top / btnMaxH * (oContent.offsetHeight - oContainer.offsetHeight) +"px";
+
+                    return false;
+
+                };
+
+            };
+
+            document.onmouseup = function(){
+                document.onmousemove = null;
+            };
+
+        })();
+
+    </script>
+    </body>
+</html>
