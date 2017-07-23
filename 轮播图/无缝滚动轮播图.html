@@ -2,7 +2,7 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>轮播图offsetwidth</title>
+        <title>无缝滚动轮播图</title>
         <style>
             *{
                 margin:0;
@@ -12,28 +12,28 @@
                 list-style:none;
             }
             img{
-                /*display:none;*/
                 float:left;
             }
             #container{
                 width:680px;
                 height:344px;
-                background-color: #00ff00;
+                background-color:#ccc;
+                margin:100px auto;
                 position:relative;
-                left:300px;
-                top:100px;
-                user-select:none;
                 overflow:hidden;
             }
-            span{
+            #content{
+                position:absolute;
+            }
+            #arrow span{
                 width:20px;
                 height:20px;
-                float:left;
-                background-color: #000000;
+                background-color:#000;
                 color:#fff;
-                margin-right:10px;
-                text-align:center;
+                float:left;
+                margin-right:5px;
                 line-height:20px;
+                text-align:center;
                 cursor:pointer;
                 user-select:none;
             }
@@ -42,15 +42,15 @@
                 left:10px;
                 bottom:10px;
             }
-            #tab li{
-                float:left;
+            #tab ul li{
                 width:20px;
                 height:20px;
-                background-color: #000000;
-                color:#ffffff;
-                margin-right:10px;
+                background-color:#000;
+                color:#fff;
                 text-align:center;
                 line-height:20px;
+                float:left;
+                margin-right:5px;
                 cursor:pointer;
                 user-select:none;
             }
@@ -60,18 +60,14 @@
                 bottom:10px;
             }
             #tab .selected{
-                background-color: orange;
-            }
-            #content{
-                position:absolute;
-                height:344px;
+                background-color:orange;
             }
         </style>
     </head>
     <body>
         <div id="container">
             <div id="content">
-                <img class="selected" src="img/1.jpg"/>
+                <img src="img/1.jpg"/>
                 <img src="img/2.jpg"/>
                 <img src="img/3.jpg"/>
                 <img src="img/4.jpg"/>
@@ -94,55 +90,65 @@
         window.onload = function(){
             var oContainer = document.getElementById("container");
             var aLi = oContainer.getElementsByTagName("li");
-            var aImg = oContainer.getElementsByTagName("img");
             var oContent = document.getElementById("content");
+            var aImg = oContent.getElementsByTagName("img");
             var oPrev = document.getElementById("prev");
             var oNext = document.getElementById("next");
             var iNow = 0;
-            oContent.style.width = aImg[0].offsetWidth * aLi.length +"px";
+
+            var newImg = aImg[0].cloneNode();
+            oContent.appendChild(newImg);
+            oContent.style.width = aImg[0].offsetWidth * aImg.length +"px";
+
             for(var i=0;i<aLi.length;i++){
+
                 aLi[i].index = i;
                 aLi[i].onmouseover = function(){
-                   changImg(this.index);
-                    iNow = this.index;
+                    changeImg(this.index)
 
-                }
-            }
-            function changImg(index){
-                for(var i=0;i<aLi.length;i++){
-                    aLi[i].className = "";
 
-                }
-                aLi[index].className = "selected";
-//                oContent.style.left = -aImg[0].offsetWidth * index +"px";
-                animate(oContent,{left:-aImg[0].offsetWidth * index});
+                };
             }
+
             oNext.onclick = function(){
                 iNow++;
-                iNow = iNow%aLi.length;
-                changImg(iNow);
+                if(iNow > aImg.length - 1){
+                    iNow = 1;
+                    oContent.style.left = 0;
+                }
+                changeImg(iNow);
             };
             oPrev.onclick = function(){
                 iNow--;
                 if(iNow<0){
-                    iNow = aLi.length -1;
+                    iNow = aLi.length - 1;
+                    oContent.style.left = - (aImg.length - 1) * aImg[0].offsetWidth +"px";
                 }
-                changImg(iNow);
+
+                changeImg(iNow);
             };
+
             var timer = setInterval(function(){
                 oNext.onclick();
-
-            },1000);
-            //console.log(typeof(timer));//返回类型是number;
+            },2000);
             oContainer.onmouseover = function(){
                 clearInterval(timer);
             };
             oContainer.onmouseout = function(){
                 timer = setInterval(function(){
                     oNext.onclick();
-                },1000);
+                },2000);
             };
-        }
+            function changeImg(index){
+                iNow = index;
+                for(var i=0;i<aLi.length;i++){
+                    aLi[i].className = "";
+                }
+                aLi[index == aLi.length ? 0 : index].className = "selected";
+                // oContent.style.left = - aImg[0].offsetWidth * this.index +"px";
+                animate(oContent,{left:- aImg[0].offsetWidth * index});
+            }
+        };
     </script>
     </body>
 </html>
